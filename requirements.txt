@@ -1,0 +1,5 @@
+metapub
+wordcloud
+nltk
+scikit-learn
+numpy

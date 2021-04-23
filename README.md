@@ -1,2 +1,3 @@
 # NLP_abstract_analysis
-R and D for ustilising NLP to analyse paper abstracts
+
+NLP tool to analyse paper abstracts
