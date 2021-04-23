@@ -1,34 +1,28 @@
-
-import wx
-from multiprocessing import Process
-from Controller import Controller
+from flask import Flask, render_template, request, redirect, url_for
+from form import Form
 
 
-class Start:
+app = Flask(__name__)
 
-  """
-  Class for starting app
-  """
-
-  def __init__(self):
-    pass
-
-  def runApp(self):
-
-    """
-    runs app
-    """
-
-    app = wx.App()
-
-    frame = Controller(None, "test")
-    frame.Show(True)
-    
-    frame.Maximize()
-    app.MainLoop()
+app.config['SECRET_KEY'] = '15101964'
 
 
-if __name__=="__main__":
-  app = Start()
-  app.runApp()
-    
+
+@app.route('/', methods=["GET", "POST"])
+def form():
+  form = Form()
+  if form.is_submitted():
+    answer = form.question.data
+    return redirect(url_for("landing"))
+
+
+  else:
+    return render_template("ask.html", form=form)
+
+@app.route('/landing', methods=["GET", "POST"])
+def landing():
+  return render_template("landing.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
