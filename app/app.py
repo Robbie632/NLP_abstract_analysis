@@ -47,7 +47,7 @@ def form():
     
     print(os.getcwd())
 
-    return redirect(url_for("landing", img_pth=img_pth))
+    return redirect(url_for("landing", img_pth_var=img_pth))
 
 
   else:
@@ -57,16 +57,7 @@ def form():
 def landing():
   return render_template("landing.html")
 
-import cv2
-import base64
 
-def ndarray_to_b64(ndarray):
-    """
-    converts a np ndarray to a b64 string readable by html-img tags 
-    """
-    img = cv2.cvtColor(ndarray, cv2.COLOR_RGB2BGR)
-    _, buffer = cv2.imencode('.png', img)
-    return base64.b64encode(buffer).decode('utf-8')
 
 
 if __name__ == "__main__":
