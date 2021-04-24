@@ -18,11 +18,14 @@
   </div>
 </div>
 <div style = "margin-left: 100px;">
+<ul>
+{% for name in filenames_list %}
+<p>{{ name }}</p>
+<img src="{{ url_for('static', filename = name) }}"> 
 
 
-<img src="static/{{ img_pth_var }}"> 
-
-
+{% endfor %}
+</ul>
 
 </div>
 

@@ -4,10 +4,9 @@ import os
 import sys
 import cv2
 sys.path.append("..")
-
 from utils import ClusterAbstract, MyKMeans
 
-import matplotlib.pyplot as plt, mpld3
+
 
 
 app = Flask(__name__)
@@ -20,34 +19,32 @@ app.config['SECRET_KEY'] = '15101964'
 def form():
   form = Form()
   if form.is_submitted():
+     #retrieve entered text
+    answer = form.question.data
+    ca = ClusterAbstract()
+    ca.get(answer, #keyword query
+          '5'#number of abstracts
+      )
+    ca.process_data()
+    ca.encode_data()
+    ca.cluster_data(3)
 
-    # #retrieve entered text
-    # answer = form.question.data
+    ca.analyse_clusters()
 
-    # #clustering
-    # ca = ClusterAbstract()
-    # ca.get(answer, #keyword query
-    #      '5'#number of abstracts
-    #   )
-    # ca.process_data()
-    # ca.encode_data()
-    # ca.cluster_data(3)
+    ca.generate_word_clouds()
+    print(f"clusters are {ca.model.labels}")
 
-    # ca.analyse_clusters()
-  
-    # ca.generate_word_clouds()
-    # print(f"clusters are {ca.model.labels}")
+    #run cluster analysis
+    print(type(ca.word_clouds[0]))
+    filenames_list = []
+    for c, img in enumerate(ca.word_clouds):
+      filenames_list.append(f"wordcloud_{c}.png")
+      img.to_file(os.path.join("static", f"wordcloud_{c}.png"))
 
-    # #run cluster analysis
-    # print(type(ca.word_clouds[0]))
 
-    # ca.word_clouds[0].to_file("test.png")
-    img_pth = "test.png"
-    #img_pth = os.path.join("static", img_pth)
-    
-    print(os.getcwd())
+ 
 
-    return redirect(url_for("landing", img_pth_var=img_pth))
+    return render_template("landing.html", filenames_list=filenames_list)
 
 
   else:
@@ -56,8 +53,6 @@ def form():
 @app.route('/landing', methods=["GET", "POST"])
 def landing():
   return render_template("landing.html")
-
-
 
 
 if __name__ == "__main__":
