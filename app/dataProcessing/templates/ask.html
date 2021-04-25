@@ -27,10 +27,18 @@
       {{form.hidden_tag()}}
       {{form.csrf_token}}
     <!--display comment text and box for submission-->
-    {{form.question.label}}{{form.question()}}
+
+    {{form.question.label}}<a>:</a> {{form.question()}}
+    <br>
+    <br>
+    {{form.clusters.label}}{{form.clusters}}
+    
+    {{form.abstracts.label}}<a>:</a> {{form.abstracts()}}
+
 
     <!--the submit box is made-->
-
+    <br>
+    <br>
     {{form.submit()}}
   </form>
 

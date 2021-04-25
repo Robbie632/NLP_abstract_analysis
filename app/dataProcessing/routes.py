@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 from form import Form
 import sys
 import os
+import time
 sys.path.append("..")
 
 from utils import ClusterAbstract, MyKMeans
@@ -25,26 +26,23 @@ def dataProcess():
   form = Form()
   if form.is_submitted():
      #retrieve entered text
-    answer = form.question.data
+    keyword = form.question.data
+    n_clusters = int(form.clusters.data)
+    n_abstracts = form.abstracts.data
+
     ca = ClusterAbstract()
-    ca.get(answer, #keyword query
-          '5'#number of abstracts
-      )
-    ca.process_data()
-    ca.encode_data()
-    ca.cluster_data(3)
-
-    ca.analyse_clusters()
-
-    ca.generate_word_clouds()
-    print(f"clusters are {ca.model.labels}")
-
-    #run cluster analysis
+    ca.run(keyword, n_abstracts, n_clusters)
+  
     print(type(ca.word_clouds[0]))
     filenames_list = []
+  
     for c, img in enumerate(ca.word_clouds):
-      filenames_list.append(f"wordcloud_{c}.png")
-      img.to_file(os.path.join("static", f"wordcloud_{c}.png"))
+      t = str(time.time()).replace('.', '_')
+      f = f"wordcloud_{c}_{t}.png"
+      filenames_list.append(f)
+     
+      img.to_file(os.path.join("static", f))
+   
 
     return render_template("landing.html", filenames_list=filenames_list)
 

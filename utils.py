@@ -341,6 +341,22 @@ class ClusterAbstract(object):
         ans = [c[0] for c in ans]
 
         return(ans)
+
+    def run(self, keywords, n_abstracts, n_clusters):
+      
+
+        self.get(keywords, #keyword query
+              n_abstracts #number of abstracts
+          )
+        self.process_data()
+        self.encode_data()
+        self.cluster_data(n_clusters)
+
+        self.analyse_clusters()
+
+        self.generate_word_clouds()
+        
+
   
 
             
