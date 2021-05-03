@@ -1,0 +1,9 @@
+celery
+redis
+flask
+flask_wtf
+wtforms
+metapub
+wordcloud
+nltk
+numpy

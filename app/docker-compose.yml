@@ -1,0 +1,29 @@
+version: "3.5"
+
+services:
+
+  my_rabbit_mq:
+    image: rabbitmq
+    container_name: my_rabbit_mq
+    networks:
+      - my_network
+
+  my_redis:
+    image: redis
+    container_name: my_redis
+    networks:
+      - my_network
+
+  my_main:
+    container_name: my_main
+    build: ./python_app
+    image: my_main
+    ports:
+      - "5000:5000"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    name: my_network
+    driver: bridge
