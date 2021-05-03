@@ -32,8 +32,7 @@ def dataProcess():
 
     ca = ClusterAbstract()
     ca.run(keyword, n_abstracts, n_clusters)
-  
-    print(type(ca.word_clouds[0]))
+
     filenames_list = []
   
     for c, img in enumerate(ca.word_clouds):
@@ -41,7 +40,7 @@ def dataProcess():
       f = f"wordcloud_{c}_{t}.png"
       filenames_list.append(f)
      
-      img.to_file(os.path.join("static", f))
+      img.to_file(os.path.join("/app/app/static", f))
    
 
     return render_template("landing.html", filenames_list=filenames_list)
