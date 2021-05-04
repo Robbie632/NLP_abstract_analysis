@@ -3,6 +3,7 @@ from form import Form
 from dataProcessing.routes import  dataProcess_bp
 from celery import Celery
 import nltk
+from time import sleep
 
 #run this in terminal before startin gapp
 #export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Documents/semiotic-anvil-253215-cfce3bcf8f4a.json"
@@ -19,13 +20,19 @@ celery.conf.update(app.config)
 
 app.register_blueprint(dataProcess_bp)
 
-@app.route('celeryTest')
+@app.route('/celeryTest')
 def celeryTest():
   task = my_background_test.delay()
   #I get error here due to trying to import my_background_test, 
   #just have a look at the repo associated with the blog post to see where 
   # the "my_background_test" function is stored and how it is imported to
   #solve this problem
+  return render_template("landing.html")
+
+@celery.task
+def my_background_test():
+  sleep(5)
+  return("result")
 
 
 if __name__ == "__main__":

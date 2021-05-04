@@ -39,7 +39,9 @@ def dataProcess():
       t = str(time.time()).replace('.', '_')
       f = f"wordcloud_{c}_{t}.png"
       filenames_list.append(f)
-     
+
+      #the path below has to be absolute because the path 
+      # used by the Dockerfile may be different
       img.to_file(os.path.join("/app/app/static", f))
    
 
