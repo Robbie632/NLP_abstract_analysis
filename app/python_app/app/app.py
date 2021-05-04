@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from form import Form
 from dataProcessing.routes import  dataProcess_bp
 from celery import Celery
@@ -23,11 +23,27 @@ app.register_blueprint(dataProcess_bp)
 @app.route('/celeryTest')
 def celeryTest():
   task = my_background_test.delay()
-  #I get error here due to trying to import my_background_test, 
-  #just have a look at the repo associated with the blog post to see where 
-  # the "my_background_test" function is stored and how it is imported to
-  #solve this problem
-  return render_template("landing.html")
+
+  # question
+  # how do I access the returned "result" of my_background_test() when it's ready
+  # how do I check the status?
+
+  # answer
+  # web page running in your browser uses ajax to poll the server for 
+  # status updates on all these tasks. For each task the page will 
+  # show a graphical status bar, a completion percentage, a status message, 
+  # and when the task completes, a result value will be shown as well.
+
+  # the flashed message will be available in the rendered html 
+  flash("my_background test function has just been sent for processing async style")
+
+
+  return redirect(url_for('async_landing'))
+
+@app.route('/async_landing')
+def async_landing():
+
+  return render_template("async_landing.html")
 
 @celery.task
 def my_background_test():
